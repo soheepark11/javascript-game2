@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * { margin:0; padding:0; box-sizing: border-box; }
+        #header {
+            background-color: pink;
+            line-height: 60px;
+            color: #fff;
+        }
+        #word-display {
+            color: pink;
+            padding: 30px;
+            font-size: 56px;
+        }
+        #word-input-box input {
+            height: 40px;
+            width: 200px;
+        }
+        #gameInfo {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        div {
+            text-align: center;
+        }
+        button {
+            padding: 10px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>타자게임</h1>
+    </div>
+    <div id="word-display">Hello</div>
+    <div id="word-input-box">
+        <input type="text" class="word-input">
+    </div>
+    <div id="gameInfo">
+        <div>남은시간 : <span class="time">0</span>초</div>
+        <div>점수 : <span class="score">0</span>점</div>
+    </div>
+    <div>
+        <button>게임시작</button>
+    </div>
+    <script>
+        let displayText = document.querySelector('#word-display');
+        let wordInput = document.querySelector('.word-input');
+        let scoreDisplay = document.querySelector('.score');
+        let texts = ["home","book","apple","low","school","pencil","nail","pen","door","foot"];
+        let score = 0;
+        let time = 20;
+        let isplaying;
+        let timeInterval;
+        const btn = document.querySelector('button');
+        const timeDisplay = document.querySelector('.time');
+        let randomNum = Math.floor(Math.random()*10);
+        displayText.innerHTML = texts[randomNum];
+        wordInput.addEventListener('input',function(){
+            if(!isplaying){
+                return;
+            }
+            if(displayText.innerHTML===wordInput.value){
+                score = score + 1;
+                let randomNum = Math.floor(Math.random()*10);
+                displayText.innerHTML = texts[randomNum];
+                wordInput.value = "";
+                scoreDisplay.innerHTML = score;
+            }
+        })
+        btn.addEventListener('click',function(){
+            btn.innerText = '게임중';
+            isplaying = true;
+            timeDisplay.innerHTML = time;
+            timeInterval = setInterval(timer,1000)
+        })
+        function timer(){
+            time>0 ? time-- : isplaying = false; 
+            timeDisplay.innerHTML = time;
+            if(!isplaying){
+                btn.innerText = '게임종료';
+                clearInterval(timeInterval);
+            }
+        }
+    </script>
+</body>
+</html>
